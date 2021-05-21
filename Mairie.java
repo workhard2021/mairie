@@ -7,16 +7,16 @@ public class Mairie implements InterfaceAffichage{
      
 	private int id;
 	private String nom;
-	private List<Citoyen> citoyens=new ArrayList<Citoyen>();
-	private List<Dece> deces=new ArrayList<Dece>();
-	private List<Divorce> divorces=new ArrayList<Divorce>();
-	private List<Mariage> mariages=new ArrayList<Mariage>();
-	private List<Naissance> naissances=new ArrayList<Naissance>();
+	public List<Citoyen> citoyens=new ArrayList<Citoyen>();
+	public List<Dece> deces=new ArrayList<Dece>();
+	public List<Divorce> divorces=new ArrayList<Divorce>();
+	public List<Mariage> mariages=new ArrayList<Mariage>();
+	public List<Naissance> naissances=new ArrayList<Naissance>();
    {
-		//Citoyen v=new Citoyen(2,"ssssr","sdsldl",new Date("11/11/2222"),"m","celiaa","neant");
-		//Citoyen c=new Citoyen(1,"camaar","sdsldl",new Date("11/11/2222"),"m","celiaa","neant");
-	//	citoyens.add(c);
-	//	citoyens.add(v);
+		Citoyen v=new Citoyen(2,"ssssr","sdsldl",new Date("11/11/2222"),"m","celiaa","neant");
+		Citoyen c=new Citoyen(1,"camaar","sdsldl",new Date("11/11/2222"),"m","celiaa","neant");
+	    citoyens.add(c);
+	 	citoyens.add(v);
 	}
 	public Mairie(int id,String nom,Citoyen citoyen){
 		this.nom = nom;

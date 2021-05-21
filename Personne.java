@@ -11,6 +11,7 @@ abstract class Personne implements InterfaceAffichage {
 	private String etatCivil;
 	private String nomUsage;
 	private int idConjoint;
+	
 
 	public void afficher(){
 		
@@ -18,9 +19,6 @@ abstract class Personne implements InterfaceAffichage {
     public Personne(){}
 	
 	
-	
-	
-
 	public int getId() {
 		return id;
 	}
@@ -68,14 +66,16 @@ abstract class Personne implements InterfaceAffichage {
 	public int getIdConjoint() {
 		return idConjoint;
 	}
+	
 	public void setIdConjoint(int idConjoint) {
 		this.idConjoint=idConjoint;
 	}
 	@Override
 	public String toString() {
 		return "Personne [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", date=" + date + ", sexe=" + sexe
-				+ ", etatCivil=" + etatCivil +" idConjoint="+idConjoint+"]";
+				+ ", etatCivil=" + etatCivil + ", nomUsage=" + nomUsage + ", idConjoint=" + idConjoint + "]";
 	}
+	
 	
 
 

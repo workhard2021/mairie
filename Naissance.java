@@ -17,14 +17,7 @@ public class Naissance  extends Evenement{
 		this.setNomMairie(nomMairie);
 		this.setMetier("Neant");
 	}
-	public Naissance(Citoyen citoyen,Date date,String lieu,String nomMairie) {
-		
-		this.citoyen = citoyen;
-		this.setDate(date);
-		this.setLieu(lieu);
-		this.setNomMairie(nomMairie);
-		this.setMetier("Neant");
-	}
+	
 	
 	public Naissance() 
 	{
@@ -32,7 +25,9 @@ public class Naissance  extends Evenement{
 	}
 	
 	public void afficher() {
-		System.out.println(this.toString());
+		System.out.println("id parent1= "+this.idParent1 +" id Parent2= "+this.idParent2
+		   +"Citoyen ="+citoyen.getNom()+ "  date= "+this.getDate()
+		);
 	}
 
 	public Citoyen getCitoyen() {
@@ -64,5 +59,4 @@ public class Naissance  extends Evenement{
 		return "Naissance [citoyen=" + citoyen + ", idParent1=" + idParent1 + ", idParent2=" + idParent2 + "]";
 	}
 	
-
 }

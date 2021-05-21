@@ -8,12 +8,11 @@ public class Dece extends Evenement {
 		System.out.println(this.toString());
 	}
 
-	public Dece(Citoyen citoyen,Date date,String lieu,String nomMairie,String metier) {
+	public Dece(Citoyen citoyen,Date date,String lieu,String nomMairie) {
 		this.citoyen = citoyen;
 		this.setDate(date);
 		this.setLieu(lieu);
 		this.setNomMairie(nomMairie);
-		this.setMetier(metier);
 	}
 	
 	public Dece() {}

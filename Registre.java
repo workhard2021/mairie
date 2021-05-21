@@ -34,6 +34,8 @@ public class Registre {
 	     System.out.println("Entrer id de la personne reclamant divorce");
 		 int id=entrer.nextInt();
 		 Citoyen p=this.rechercher(id);
+		 Citoyen p2;
+		 
 		
 	     if(p==null) {
 	    	  throw new ExceptionMairie("cette personne existe pas");
@@ -43,10 +45,39 @@ public class Registre {
 	    		 
 	    		  throw new ExceptionMairie("cette personne s'est pas mariée");
 	    	 }else {
+	    		 
+
+			     System.out.println("Voulez vous changer non d'usage? oui/non");
+			     String u=entrer.next();
+			     if(u=="oui") {
+			    	 
+			    	  if(p.getSexe()=="f" || p.getSexe()=="F") {
+			    		     
+			    		    Citoyen c;
+				    	    for(int i=0;i<this.mairie.naissances.size();i++) {
+				    	    	     c=this.mairie.naissances.get(i).getCitoyen();
+				    	    	     
+				    	    	     if(c.getId()==p.getId()) {
+				    	    	    	   p.setNomUsage(c.getNom());
+				    	    	     }
+				    	    }
+			    	  }
+			    	  	 
+			     }
+	    		  
+	    		  //initialiser idConjoint(e) mari(e);
 	    		  p.setEtatCivil("Divorcé");
+	    		  p2=this.rechercher(p.getIdConjoint());
+	    		  p2.setEtatCivil("Divorcé");
+	    		  p2.setIdConjoint(0);
 	    		  p.setIdConjoint(0);
+	    		  this.mairie.divorces.remove(p.getId());
+	    		  this.mairie.divorces.remove(p2.getId());
+	    		  
 	    		  System.out.println("Entrer la date");
+	    		  
 	    		  String d=entrer.next();
+	    		 
 	    		  Date date=new Date(d);
 	    		  do {
 	    			  if(date.dateValid()){ 
@@ -61,9 +92,7 @@ public class Registre {
 	    	 }
 	    	 
 	     }
-	     
-		
-			 
+	     	 
 	}
 	
 	public void mariage() throws ExceptionMairie{
@@ -111,15 +140,29 @@ public class Registre {
 				    	 
 				    	 marie.setEtatCivil("Mariée");
 				    	 mari.setEtatCivil("Marié");
+				    	 marie.setNomUsage(mari.getNom());
+				    	 
 				    	 
 				    	 marie.setIdConjoint(mari.getId());
 				    	 mari.setIdConjoint(marie.getId());
 				    	 
 				    	 marie.setConjointlistes(mari);
 				    	 mari.setConjointlistes(marie);
-				    	 mari.afficher();
 				    	 
-						 System.out.println("Mariage enregistré");  
+				    	 
+				    	 System.out.println("Entre le lieu de mariage");
+				    	 String lieu=entrer.next();
+				    	 
+				    	 System.out.println("Entre la date");
+				    	 String date=entrer.next();
+				    	 
+				    	
+				    
+				    	 Mariage mariage=new Mariage(mari,marie,new Date(date),lieu,this.mairie.getNom());
+				    	 this.mairie.mariages.add(mariage);
+				    	 marie.setNomUsage(mari.getNom());
+				         
+						 System.out.println("Mr "+mari.getNom()+" et Mm "+ marie.getNom()+" sont déclarés marié");  
 				    }
 			  }
    
@@ -178,9 +221,10 @@ public class Registre {
 		    citoyen=this.saisir(citoyen);
 		    naissance.setDate(citoyen.getDate());
 		    naissance.setNomMairie(this.mairie.getNom());
-		    this.mairie.setCitoyens(citoyen);
-		    this.mairie.setNaissances(naissance);
-		    
+		    this.mairie.citoyens.add(citoyen);
+		    naissance.setCitoyen(citoyen);
+		    this.mairie.naissances.add(naissance);
+		     
 	}
 	
 	public void etatCivilPersonne() throws ExceptionMairie{
@@ -215,7 +259,6 @@ public class Registre {
 	public Citoyen saisir(Citoyen p){
 			
 				
-			
 			boolean nomValid=true;
 			boolean prenomValid=true;
 			boolean dateValid=true;
@@ -231,7 +274,7 @@ public class Registre {
 				  }else {
 					  nomValid=false;
 					  p.setNom(nom);
-				  }
+			}
 				  
 	    	 }while(nomValid);
 			
@@ -295,9 +338,7 @@ public class Registre {
 			
 			 p.setId(this.mairie.getCitoyens().size()+1);
 			 return p;
-			 
-			
-			       
+			        
 		}
 	
        public void afficherDivorces() throws ExceptionMairie {
@@ -313,6 +354,83 @@ public class Registre {
 		}
 		
 	  }
+       
+       public void dece() throws ExceptionMairie {
+    	   
+ 
+    	      boolean b=true;
+    	      boolean c=true;
+    	      
+    	      Dece d=new Dece();
+    	       //date
+    	      do{
+		    	   System.out.print("Entre date de dece");
+		    	   
+				   String date=entrer.next();
+				  Date dates=new Date(date);
+				  if(!dates.dateValid()) {
+					  System.out.print("Veuillez respecter le format : jour(xx)/mois(xx)/année(xxxx)");
+				  }else {
+					  
+					  c=false;
+					  d.setDate(dates);
+				  }
+				  
+	  	      }while(c);
+    	       //id dece
+    	      do{
+    	    	   System.out.print("Enter id de la personne décédée");
+    	    	   int id=entrer.nextInt();
+    	    	   if(0<id) {
+    	    		    b=false;
+    	    		    if(this.rechercher(id)!=null) {
+    	    		    	
+    	    		    	 d.setCitoyen(this.rechercher(id));
+    	    		    	 this.mairie.deces.add(d);
+    	    		    	      for(int i=0 ;i<this.mairie.citoyens.size();i++) {
+    	    		    	    	  
+    	    		    	       if(d.getCitoyen().getId()==this.mairie.citoyens.get(i).getId()){
+    	    		    	    	       Citoyen z=this.mairie.citoyens.get(i);
+    	    		    	    	      for(int j=0;j<z.conjointlistes.size();j++) {
+    	    		    	    	        	 
+    	    		    	    	    	   Citoyen w=this.mairie.citoyens.get(j).conjointlistes.get(j);
+    	    		    	    	    	   if(w.getId()==z.getIdConjoint()){
+    	    		    	    	    		  
+    	    		    	    	    		    if( w.getSexe()=="f" || w.getSexe()=="F" ) {
+    	    		    	    	    		    	  w.setEtatCivil("Veuve");
+    	    		    	    	    		    }else {
+    	    		    	    	    		    	   w.setEtatCivil("Veuf");
+    	    		    	    	    		    }
+    	    		    	    	    		    
+    	    		    	    	    		  
+    	    		    	    	    		   
+    	    		    	    	    		   for(Citoyen s : this.mairie.citoyens){
+    	    		    	    	    			      if(s.getId()==w.getId()) {
+    	    		    	    	    			    	 this.mairie.citoyens.remove(s.getId());
+    	    		    	    	    			    	 this.mairie.citoyens.add(w);
+    	    		    	    	    			    	  
+    	    		    	    	    			      }
+    	    		    	    	    		   }
+    	    		    	    	    		   
+    	    		    	    	    	    }
+    	    		    	    	       }
+    	    		    	    	      this.mairie.citoyens.remove(i);
+    	    		    	    	    	   
+    	    		    	    	}
+    	    		    	    	  
+    	    		    	      }
+    	    		    }else {
+    	    		    	 throw new ExceptionMairie("cet id existe pas");	
+    	    		    }
+    	    		    
+    	    		    
+    	    	   }else {
+    	    		   throw new ExceptionMairie("cet id existe pas");
+    	    	   }
+    	    	  
+    	      }while(b);
+    	      
+       }
        
        public void afficherDeces() throws ExceptionMairie {
    		
@@ -378,8 +496,17 @@ public class Registre {
   			 +"nombre d'enfant "+nbrEnfant 
   			);
   		 }
-    		
+  		 	
     }
+     public void saisirPersonne(){
+    	
+    	    Citoyen c=new Citoyen();
+    	    c=this.saisir(c);
+    	    this.mairie.citoyens.add(c);
+    	
+     }
+     
+   
  
 
 			

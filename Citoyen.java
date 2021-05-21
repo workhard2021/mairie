@@ -15,7 +15,7 @@ public class Citoyen extends Personne{
 			this.setPrenom(prenom);
 			this.setDate(date);
 			this.setSexe(sexe);
-			this.setEtatCivil(etatCivil);
+			this.setEtatCivil("célibataire");
 			this.setNomUsage(nomUsage);
 			
 	}
@@ -62,7 +62,7 @@ public class Citoyen extends Personne{
 	@Override
 	public String toString() {
 		String citoyen=super.toString();
-		return "Citoyen [enfant="  + "]"+citoyen;
+		return "Citoyen "+citoyen;
 	}
 	
 	

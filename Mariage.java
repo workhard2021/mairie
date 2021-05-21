@@ -5,12 +5,11 @@ public class Mariage extends Evenement {
 	private  Citoyen citoyen1;
 	private  Citoyen citoyen2;
 	
-  	public Mariage(Citoyen citoyen1, Citoyen citoyen2,Date date,String lieu,String metier,String nomMairie) {
+  	public Mariage(Citoyen citoyen1, Citoyen citoyen2,Date date,String lieu,String nomMairie) {
 		this.citoyen1 = citoyen1;
 		this.citoyen2 = citoyen2;
 		this.setDate(date);
 		this.setLieu(lieu);
-		this.setMetier(metier);
 		this.setNomMairie(nomMairie);
 	}
 	public Mariage(){}
