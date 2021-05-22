@@ -17,7 +17,7 @@ public class Main {
 			        case 1:
 			        	 try {
 	                          r.mariage();
-	                          System.out.println("Entre votre choix entre 0 et 10\n");
+	                          System.out.println("Entre votre choix entre 0 et 12\n");
 				        	 }catch(ExceptionMairie e) {System.out.println(e.getMessage());}
 				        	break;
 			        case 2:

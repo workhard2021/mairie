@@ -13,8 +13,8 @@ public class Mairie implements InterfaceAffichage{
 	public List<Mariage> mariages=new ArrayList<Mariage>();
 	public List<Naissance> naissances=new ArrayList<Naissance>();
    {
-		Citoyen v=new Citoyen(2,"ssssr","sdsldl",new Date("11/11/2222"),"m","celiaa","neant");
-		Citoyen c=new Citoyen(1,"camaar","sdsldl",new Date("11/11/2222"),"m","celiaa","neant");
+		Citoyen v=new Citoyen(2,"nom femme","prenom femme",new Date("11/11/2222"),"f","celiaa","neant");
+		Citoyen c=new Citoyen(1,"nom homme","prenom homme",new Date("11/11/1111"),"h","celiaa","neant");
 	    citoyens.add(c);
 	 	citoyens.add(v);
 	}

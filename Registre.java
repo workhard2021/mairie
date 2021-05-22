@@ -1,6 +1,4 @@
 package mairies;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Registre {
@@ -71,8 +69,7 @@ public class Registre {
 	    		  p2.setEtatCivil("Divorcé");
 	    		  p2.setIdConjoint(0);
 	    		  p.setIdConjoint(0);
-	    		  this.mairie.divorces.remove(p.getId());
-	    		  this.mairie.divorces.remove(p2.getId());
+	    		  
 	    		  
 	    		  System.out.println("Entrer la date");
 	    		  
@@ -84,10 +81,20 @@ public class Registre {
 		    			  this.mairie.setDivorces(new Divorce(p,date,this.mairie.getNom()));
 					      System.out.println(p);
 					      valid=false;
+					      
+					      for(int i=0;i<this.mairie.mariages.size();i++){
+					    	   
+					    	    Mariage m=this.mairie.mariages.get(i);
+					    	    if(m.getCitoyen1().getId()==p.getId() || m.getCitoyen2().getId()==p.getId()) {
+					    		       this.mairie.mariages.remove(i);
+					    	    }
+					      }
+					     
 		    		  }else {
 		    			  throw new ExceptionMairie("Veuillez respecter le format : jour(xx)/mois(xx)/année(xxxx)");
 		    		  }
 	    		  }while(valid);
+	    		  
 	    		  
 	    	 }
 	    	 
@@ -362,6 +369,8 @@ public class Registre {
     	      boolean c=true;
     	      
     	      Dece d=new Dece();
+    	      Citoyen citoyen=new Citoyen();
+    	      Citoyen conjoint=new Citoyen();
     	       //date
     	      do{
 		    	   System.out.print("Entre date de dece");
@@ -387,38 +396,30 @@ public class Registre {
     	    		    	
     	    		    	 d.setCitoyen(this.rechercher(id));
     	    		    	 this.mairie.deces.add(d);
-    	    		    	      for(int i=0 ;i<this.mairie.citoyens.size();i++) {
-    	    		    	    	  
-    	    		    	       if(d.getCitoyen().getId()==this.mairie.citoyens.get(i).getId()){
-    	    		    	    	       Citoyen z=this.mairie.citoyens.get(i);
-    	    		    	    	      for(int j=0;j<z.conjointlistes.size();j++) {
-    	    		    	    	        	 
-    	    		    	    	    	   Citoyen w=this.mairie.citoyens.get(j).conjointlistes.get(j);
-    	    		    	    	    	   if(w.getId()==z.getIdConjoint()){
-    	    		    	    	    		  
-    	    		    	    	    		    if( w.getSexe()=="f" || w.getSexe()=="F" ) {
-    	    		    	    	    		    	  w.setEtatCivil("Veuve");
-    	    		    	    	    		    }else {
-    	    		    	    	    		    	   w.setEtatCivil("Veuf");
-    	    		    	    	    		    }
-    	    		    	    	    		    
-    	    		    	    	    		  
-    	    		    	    	    		   
-    	    		    	    	    		   for(Citoyen s : this.mairie.citoyens){
-    	    		    	    	    			      if(s.getId()==w.getId()) {
-    	    		    	    	    			    	 this.mairie.citoyens.remove(s.getId());
-    	    		    	    	    			    	 this.mairie.citoyens.add(w);
-    	    		    	    	    			    	  
-    	    		    	    	    			      }
-    	    		    	    	    		   }
-    	    		    	    	    		   
-    	    		    	    	    	    }
-    	    		    	    	       }
-    	    		    	    	      this.mairie.citoyens.remove(i);
-    	    		    	    	    	   
-    	    		    	    	}
-    	    		    	    	  
-    	    		    	      }
+    	    		    	 citoyen.setConjointlistes(this.rechercher(id));
+    	    		    	
+    	    		    	 for(int i=0;i<citoyen.conjointlistes.size();i++){
+    	    		    		   conjoint =citoyen.conjointlistes.get(i);
+    	    		    		  
+    	    		    		   if(conjoint.getId()==citoyen.getIdConjoint()) {
+    	    		    			     if(conjoint.getSexe()=="f" || conjoint.getSexe()=="F") {
+    	    		    			    	   this.mairie.citoyens.get(i).setEtatCivil("Veuve");
+    	    		    			     }else {
+    	    		    			    	  this.mairie.citoyens.get(i).setEtatCivil("Veuve");
+    	    		    			     }
+    	    		    			     
+    	    		    		   }   
+    	    		    	 }
+    	    		        for(int k =0;k<this.mairie.citoyens.size();k++) {
+    	    		        	
+    	    		    	            Citoyen temp=this.mairie.citoyens.get(k);
+    	    		    	            if(temp.getId()==id){
+    	    		    	            	 this.mairie.citoyens.remove(k);	
+    	    		    	            }
+    	    		        }
+    	    		          
+    	    		       
+    	    		    	 
     	    		    }else {
     	    		    	 throw new ExceptionMairie("cet id existe pas");	
     	    		    }
@@ -480,6 +481,7 @@ public class Registre {
   	     
   		 int id=entrer.nextInt();
   		 Citoyen p=this.rechercher(id);
+  		
   		 if(p==null) {
   			      throw new ExceptionMairie("erreur=>Cette personne n'existe pas");
   		 }else {
@@ -490,13 +492,12 @@ public class Registre {
   			}  
   		 }
   		 
-  		 if(p.getIdConjoint()==0) {
-  			 System.out.println("nom ="+p.getNom()+ "\n prenom ="+p.getPrenom()
+  		
+  		 System.out.println("nom ="+p.getNom()+ "\n prenom ="+p.getPrenom()
   			 +"\n etat civil "+p.getEtatCivil()+" \n date de naissance ="+p.getDate()
-  			 +"nombre d'enfant "+nbrEnfant 
+  			 +"nombre d'enfant "+nbrEnfant +" pour plus d'info"+p
   			);
-  		 }
-  		 	
+  		
     }
      public void saisirPersonne(){
     	
@@ -506,9 +507,6 @@ public class Registre {
     	
      }
      
-   
- 
-
-			
+ 			
 }
     
